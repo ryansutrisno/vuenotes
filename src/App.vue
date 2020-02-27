@@ -9,13 +9,13 @@
         </a>
       </div>
       <div class="frame-notes">
-        <button @click="newNotes" class="bg-success btn btn-new-note">+ Note Baru</button>
-        <ListNote />
+        <button @click="newNote" class="bg-success btn btn-new-note">+ Note Baru</button>
+        <ListNote :propNotes="notes" />
       </div>
     </div>
     <!-- Form -->
     <div class="right">
-      <FormNote />
+      <FormNote :propSaveNote="saveNote" />
     </div>
   </div>
 </template>
@@ -26,9 +26,26 @@ import FormNote from './components/FormNote.vue'
 
 export default {
   name: 'App',
+  data: function() {
+        return {
+            notes: [
+                { title: 'Catatan',
+                description: 'Ini isi catatan'}
+            ]
+        }
+  },
   components: {
     ListNote,
     FormNote
+  },
+  methods: {
+    newNote() {
+
+    },
+    saveNote(title, description) {
+      let newNote = {'title' : title, 'description' : description}
+      this.notes.push(newNote);
+    }
   }
 }
 </script>
