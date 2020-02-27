@@ -10,12 +10,12 @@
       </div>
       <div class="frame-notes">
         <button @click="newNote" class="bg-success btn btn-new-note">+ Note Baru</button>
-        <ListNote :propNotes="notes" />
+        <ListNote :propNotes="notes" :propEditNote="editNote" />
       </div>
     </div>
     <!-- Form -->
     <div class="right">
-      <FormNote :propSaveNote="saveNote" />
+      <FormNote :propSaveNote="saveNote" :propUpdateNote="updateNote" :propDataForm="dataForm" />
     </div>
   </div>
 </template>
@@ -28,9 +28,12 @@ export default {
   name: 'App',
   data: function() {
         return {
+            dataForm: {},
             notes: [
-                { title: 'Catatan',
-                description: 'Ini isi catatan'}
+                {id:1, title: 'Catatan',
+                description: 'Ini isi catatan'},
+                {id:2, title: 'Tulisan',
+                description: 'Ini isi tulisan'}
             ]
         }
   },
@@ -40,11 +43,25 @@ export default {
   },
   methods: {
     newNote() {
-
+      this.dataForm = {id:0, title: '', description: ''}
     },
     saveNote(title, description) {
-      let newNote = {'title' : title, 'description' : description}
+      let newId = 1;
+      if (this.notes.length === 0) {
+        newId = 1;
+      }else {
+        newId = this.notes[this.notes.length-1].id+1;
+      }
+      let newNote = {id:newId, 'title' : title, 'description' : description}
       this.notes.push(newNote);
+    },
+    editNote(id) {
+      this.dataForm = this.notes.find(note => note.id === id);
+    },
+    updateNote(id, title, description) {
+      let noteIndex = this.notes.findIndex(note => note.id === id);
+      this.notes[noteIndex].title = title;
+      this.notes[noteIndex].description = description;
     }
   }
 }
