@@ -15,7 +15,7 @@
     </div>
     <!-- Form -->
     <div class="right">
-      <FormNote :propSaveNote="saveNote" :propUpdateNote="updateNote" :propDataForm="dataForm" />
+      <FormNote :propSaveNote="saveNote" :propUpdateNote="updateNote" :propDeleteNote="deleteNote" :propDataForm="dataForm" />
     </div>
   </div>
 </template>
@@ -54,6 +54,7 @@ export default {
       }
       let newNote = {id:newId, 'title' : title, 'description' : description}
       this.notes.push(newNote);
+      this.editNote(newId);
     },
     editNote(id) {
       this.dataForm = this.notes.find(note => note.id === id);
@@ -62,6 +63,10 @@ export default {
       let noteIndex = this.notes.findIndex(note => note.id === id);
       this.notes[noteIndex].title = title;
       this.notes[noteIndex].description = description;
+    },
+    deleteNote(id) {
+      let noteIndex = this.notes.findIndex(note => note.id === id);
+      this.notes.splice(noteIndex, 1);
     }
   }
 }
